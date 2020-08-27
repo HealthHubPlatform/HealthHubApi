@@ -7,6 +7,11 @@ import { ApolloServer } from "apollo-server-express";
 
 import { typeDefs, resolvers } from "./schema";
 
+const corsOptions = {
+    origin: ["http://localhost:8080", "http://a2f6d33fa193d4a1e81af58334266425-0b3fb739bfeddcf6.elb.us-east-1.amazonaws.com"],
+    credentials: true,
+};
+
 /**
  * Error Handler. Provides full stack - remove for production
  */
@@ -23,7 +28,10 @@ const server = new ApolloServer({
     introspection: true,
 });
 
-server.applyMiddleware({ app });
+server.applyMiddleware({ 
+    app,
+    cors: corsOptions,
+});
 
 app.listen(app.get("port"), () => {
     console.log(
